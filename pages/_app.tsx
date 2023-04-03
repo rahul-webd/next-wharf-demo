@@ -80,7 +80,7 @@ export default function App({ Component, pageProps }: AppProps) {
     }
 
     handleAutoLogin();
-  }, [sessionKit])
+  }, [sessionKit, session])
 
   return (
     <SessionContext.Provider
