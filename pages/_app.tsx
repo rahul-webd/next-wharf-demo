@@ -70,6 +70,10 @@ export default function App({ Component, pageProps }: AppProps) {
       return;
     }
 
+    if (session) {
+      return;
+    }
+
     const handleAutoLogin = async () => {
       const session = await sessionKit.restore();
       setSession(session)
