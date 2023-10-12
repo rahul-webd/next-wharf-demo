@@ -1,9 +1,10 @@
 import Layout from '@/components/layouts/Layout'
 import '@/styles/globals.css'
-import { Session, SessionKit, BrowserLocalStorage } from '@wharfkit/session'
+import { Session, SessionKit } from '@wharfkit/session'
 import { WalletPluginAnchor } from '@wharfkit/wallet-plugin-anchor'
 import { WalletPluginCloudWallet } from '@wharfkit/wallet-plugin-cloudwallet'
-import { WebUIRenderer } from '@wharfkit/web-ui-renderer'
+import { WalletPluginWombat } from '@wharfkit/wallet-plugin-wombat'
+import { WebRenderer } from '@wharfkit/web-renderer'
 import type { AppProps } from 'next/app'
 import { Dispatch, SetStateAction, createContext, useEffect, useState } from 'react'
 
@@ -36,11 +37,11 @@ export default function App({ Component, pageProps }: AppProps) {
   const [sessionKit, setSessionKit] = useState<SessionKit>()
 
   useEffect(() => {
-    const ui = new WebUIRenderer()
+    const ui = new WebRenderer()
     ui.appendDialogElement();
     const anchor = new WalletPluginAnchor()
     const wax = new WalletPluginCloudWallet()
-    const browserLocalStorage = new BrowserLocalStorage('wharf-session')
+    const wombat = new WalletPluginWombat()
 
     const sessionKit = new SessionKit({
       appName: 'Next Wharf Demo',
@@ -51,11 +52,10 @@ export default function App({ Component, pageProps }: AppProps) {
         },
       ],
       ui,
-      walletPlugins: [wax, anchor],
+      walletPlugins: [wax, anchor, wombat],
       /**
        * this should be optional but is not in the SDK
        */
-      storage: browserLocalStorage
     })
 
     setSessionKit(sessionKit)
